@@ -204,16 +204,24 @@ export default function App() {
     fetchLeaderboard();
 
     // Subscribe to realtime INSERT events on leaderboard table
-    const subscription = supabase
-      .from('leaderboard')
-      .on('INSERT', (payload: any) => {
-        // Refetch top 10 when a new score is inserted
-        fetchLeaderboard();
-      })
+    const channel = supabase
+      .channel('public:leaderboard')
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'leaderboard',
+        },
+        () => {
+          // Refetch top 10 when a new score is inserted
+          fetchLeaderboard();
+        }
+      )
       .subscribe();
 
     return () => {
-      subscription.unsubscribe();
+      supabase.removeChannel(channel);
     };
   }, [supabase]);
 
