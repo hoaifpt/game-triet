@@ -1,0 +1,158 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Playfair Display", serif;
+}
+
+@layer base {
+  body {
+    @apply bg-[#0b0f1a] text-white antialiased overflow-hidden;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/6 backdrop-blur-md border border-white/14 rounded-2xl;
+  }
+
+  .player-header {
+    @apply flex items-center justify-between mb-4;
+  }
+
+  .circuit-bg {
+    background-image:
+      radial-gradient(circle at 10% 20%, rgba(255, 0, 0, 0.05) 0%, transparent 40%),
+      radial-gradient(circle at 90% 80%, rgba(255, 120, 0, 0.05) 0%, transparent 40%),
+      linear-gradient(rgba(11, 15, 26, 0.9), rgba(11, 15, 26, 0.9)),
+      url("https://www.transparenttextures.com/patterns/circuit-board.png");
+    background-attachment: fixed;
+  }
+
+  .glow-orange {
+    box-shadow: 0 6px 30px rgba(255, 165, 0, 0.16);
+  }
+
+  .sidebar-shadow {
+    box-shadow: 0 8px 40px rgba(2, 6, 23, 0.6);
+  }
+
+  /* Background for Home page - Futuristic Academic Library */
+  .bg-home {
+    background-image: url('/src/assets/images/home/screen.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+  }
+
+  /* Background for Gameplay - Purple & Navy */
+  .bg-gameplay {
+    background: linear-gradient(135deg, rgba(75, 0, 130, 0.3) 0%, rgba(25, 25, 112, 0.3) 100%),
+      url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><pattern id="hex" x="0" y="0" width="120" height="120" patternUnits="userSpaceOnUse"><circle cx="60" cy="60" r="2" fill="%23ffffff" opacity="0.08"/></pattern></defs><rect fill="%230b0f1a" width="1200" height="800"/><rect fill="url(%23hex)" width="1200" height="800"/></svg>');
+    background-attachment: fixed;
+    position: relative;
+  }
+
+  /* Background for Victory Modal - Golden Stars */
+  .bg-victory {
+    background: radial-gradient(ellipse at 20% 50%, rgba(218, 165, 32, 0.2) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 50%, rgba(184, 134, 11, 0.15) 0%, transparent 50%),
+      linear-gradient(180deg, rgba(25, 25, 112, 0.5) 0%, rgba(0, 0, 0, 0.7) 100%);
+    background-attachment: fixed;
+  }
+
+  /* Background for Leaderboard - Slate & Crimson */
+  .bg-leaderboard {
+    background: linear-gradient(135deg, rgba(178, 34, 52, 0.3) 0%, rgba(45, 85, 120, 0.3) 100%),
+      url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><pattern id="grid" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M 60 0 L 0 0 0 60" fill="none" stroke="%23ffffff" stroke-width="0.5" opacity="0.05"/></pattern></defs><rect fill="%230b0f1a" width="1200" height="800"/><rect fill="url(%23grid)" width="1200" height="800"/></svg>');
+    background-attachment: fixed;
+    position: relative;
+  }
+
+  /* Level-specific backgrounds */
+  .level-1-bg {
+    background-image: url('/src/assets/images/cau1/screen.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+  }
+
+  .level-2-bg {
+    background-image: url('/src/assets/images/cau2/screen.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+  }
+
+  .level-3-bg {
+    background-image: url('/src/assets/images/cau3/screen.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+  }
+
+  .level-4-bg {
+    background-image: url('/src/assets/images/cau4/screen.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+  }
+
+  .level-5-bg {
+    background-image: url('/src/assets/images/cau5/screen.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+  }
+
+  .level-6-bg {
+    background-image: url('/src/assets/images/cau6/screen.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+  }
+
+  .level-7-bg {
+    background-image: url('/src/assets/images/cau7/screen.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+  }
+
+  .level-8-bg {
+    background-image: url('/src/assets/images/cau8/a_premium_educational_game_background_in_the_neo_classical_cyber_academy_style.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+  }
+
+  @keyframes shake {
+
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+
+    25% {
+      transform: translateX(-5px);
+    }
+
+    75% {
+      transform: translateX(5px);
+    }
+  }
+
+  .animate-shake {
+    animation: shake 0.2s cubic-bezier(.36, .07, .19, .97) both;
+  }
+}

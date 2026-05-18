@@ -1,0 +1,8 @@
+{
+  "name": "Đuổi Hình Bắt Chữ Triết Học Mác-Lênin",
+  "description": "Một ứng dụng trò chơi giáo dục về triết học Mác-Lênin, giúp sinh viên học tập một cách thú vị qua hình thức đuổi hình bắt chữ.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
