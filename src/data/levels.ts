@@ -18,19 +18,43 @@ export interface Level {
   aliases?: string[];
 }
 
-// Helper function to load images - Vite will handle these paths correctly
-const getImageUrl = (path: string) => new URL(path, import.meta.url).href;
+// Import images directly so Vite can handle bundling and public paths correctly.
+import level1_1 from '../assets/images/level_1/image1.png';
+import level1_2 from '../assets/images/level_1/image2.png';
+import level1_3 from '../assets/images/level_1/image3.png';
+
+import level2_1 from '../assets/images/level_2/image_1.png';
+import level2_2 from '../assets/images/level_2/image_2.png';
+import level2_3 from '../assets/images/level_2/image_3.png';
+
+import level3_1 from '../assets/images/level_3/image_1.png';
+import level3_2 from '../assets/images/level_3/image_2.png';
+import level3_3 from '../assets/images/level_3/image_3.png';
+
+import level4_1 from '../assets/images/level_4/image_1.png';
+import level4_2 from '../assets/images/level_4/image_2.png';
+import level4_3 from '../assets/images/level_4/image_3.png';
+import level4_4 from '../assets/images/level_4/image_4.png';
+
+import level5_1 from '../assets/images/level_5/image_1.png';
+import level5_2 from '../assets/images/level_5/image_2.png';
+import level5_3 from '../assets/images/level_5/image_3.png';
+
+import level6_1 from '../assets/images/level_6/image_1.png';
+import level6_2 from '../assets/images/level_6/image_2.png';
+
+import level7_1 from '../assets/images/level_7/image_1.png';
+import level7_2 from '../assets/images/level_7/image_2.png';
+
+import level8_1 from '../assets/images/level_8/image_1.png';
+import level8_2 from '../assets/images/level_8/image_2.png';
 
 export const LEVELS: Level[] = [
   {
     id: 1,
-    images: [
-      getImageUrl('../assets/images/level_1/image1.png'),
-      getImageUrl('../assets/images/level_1/image2.png'),
-      getImageUrl('../assets/images/level_1/image3.png'),
-    ],
+    images: [level1_1, level1_2, level1_3],
     imageCaptions: ['Tiêu đề giật tít', 'Ký hiệu sai', 'Báo in'],
-    image: getImageUrl('../assets/images/level_1/image1.png'),
+    image: level1_1,
     answer: 'TIN GIẢ',
     aliases: ['TIN GIA', 'FAKE NEWS'],
     definition: "Tin giả là thông tin sai sự thật được phát tán có chủ đích, thường giật tít gây sốc để thu hút clicks. Thuật toán mạng xã hội ưu tiên nội dung gây phản ứng cảm xúc mạnh nên tin giả lan nhanh hơn tin thật.",
@@ -39,13 +63,9 @@ export const LEVELS: Level[] = [
   },
   {
     id: 2,
-    images: [
-      getImageUrl('../assets/images/level_2/image_1.png'),
-      getImageUrl('../assets/images/level_2/image_2.png'),
-      getImageUrl('../assets/images/level_2/image_3.png'),
-    ],
+    images: [level2_1, level2_2, level2_3],
     imageCaptions: ['Biểu tượng share', 'Đám đông chỉ 1 hướng', 'Ánh mắt đồng bộ'],
-    image: getImageUrl('../assets/images/level_2/image_1.png'),
+    image: level2_1,
     answer: 'TÂM LÝ ĐÁM ĐÔNG',
     aliases: ['TAM LY DAM DONG', 'DAM DONG', 'HERD MENTALITY'],
     definition: 'Khi nhiều người cùng tin vào một thông tin, não bộ tự động giảm đề kháng phản biện – dù thông tin đó chưa được kiểm chứng. Đây là nguyên nhân chính khiến tin giả lan rộng.',
@@ -54,13 +74,9 @@ export const LEVELS: Level[] = [
   },
   {
     id: 3,
-    images: [
-      getImageUrl('../assets/images/level_3/image_1.png'),
-      getImageUrl('../assets/images/level_3/image_2.png'),
-      getImageUrl('../assets/images/level_3/image_3.png'),
-    ],
+    images: [level3_1, level3_2, level3_3],
     imageCaptions: ['Trao đổi hai chiều', 'Mạng lưới kết nối', 'Liên kết đa cấp'],
-    image: getImageUrl('../assets/images/level_3/image_1.png'),
+    image: level3_1,
     answer: 'MỐI LIÊN HỆ PHỔ BIẾN',
     aliases: ['MOI LIEN HE PHO BIEN', 'UNIVERSAL CONNECTION'],
     definition: 'Là sự ràng buộc, quy định và tác động lẫn nhau giữa các sự vật, hiện tượng. Một tin tức trên mạng không tồn tại độc lập – nó bị ảnh hưởng bởi nguồn tin, thuật toán, lợi ích và tâm lý người đọc.',
@@ -69,14 +85,9 @@ export const LEVELS: Level[] = [
   },
   {
     id: 4,
-    images: [
-      getImageUrl('../assets/images/level_4/image_1.png'),
-      getImageUrl('../assets/images/level_4/image_2.png'),
-      getImageUrl('../assets/images/level_4/image_3.png'),
-      getImageUrl('../assets/images/level_4/image_4.png'),
-    ],
+    images: [level4_1, level4_2, level4_3, level4_4],
     imageCaptions: ['Nguyên tắc cơ bản', 'Ghép mảnh toàn cảnh', 'Tầm nhìn toàn cầu', 'Nhìn từ nhiều hướng'],
-    image: getImageUrl('../assets/images/level_4/image_1.png'),
+    image: level4_1,
     answer: 'NGUYÊN TẮC TOÀN DIỆN',
     aliases: ['NGUYEN TAC TOAN DIEN', 'COMPREHENSIVE PRINCIPLE'],
     definition: 'Khi tiếp nhận thông tin, không được xem xét rời rạc, một chiều. Phải kiểm tra nguồn gốc, động cơ, bối cảnh: Nguồn tin từ đâu? Tại sao xuất hiện lúc này? Có mâu thuẫn với các nguồn chính thống khác không?',
@@ -85,13 +96,9 @@ export const LEVELS: Level[] = [
   },
   {
     id: 5,
-    images: [
-      getImageUrl('../assets/images/level_5/image_1.png'),
-      getImageUrl('../assets/images/level_5/image_2.png'),
-      getImageUrl('../assets/images/level_5/image_3.png'),
-    ],
+    images: [level5_1, level5_2, level5_3],
     imageCaptions: ['Tiến bộ liên tục', 'Đường cong tăng trưởng', 'Phát triển với thử thách'],
-    image: getImageUrl('../assets/images/level_5/image_1.png'),
+    image: level5_1,
     answer: 'SỰ PHÁT TRIỂN',
     aliases: ['SU PHAT TRIEN', 'DEVELOPMENT'],
     definition: 'Phát triển là quá trình vận động từ thấp đến cao, từ kém hoàn thiện đến hoàn thiện hơn, diễn ra theo đường xoáy ốc – có thể có bước thụt lùi tạm thời nhưng tổng thể vẫn tiến lên.',
@@ -100,12 +107,9 @@ export const LEVELS: Level[] = [
   },
   {
     id: 6,
-    images: [
-      getImageUrl('../assets/images/level_6/image_1.png'),
-      getImageUrl('../assets/images/level_6/image_2.png'),
-    ],
+    images: [level6_1, level6_2],
     imageCaptions: ['Điều khiển từ phía sau', 'Giật dây tâm lý đám đông'],
-    image: getImageUrl('../assets/images/level_6/image_1.png'),
+    image: level6_1,
     answer: 'THAO TÚNG TRUYỀN THÔNG',
     aliases: ['THAO TUC TRUYEN THONG', 'MEDIA MANIPULATION'],
     definition: 'Thao túng truyền thông là hành động cố ý tạo ra và phát tán thông tin sai lệch hoặc phiến diện nhằm điều khiển nhận thức và hành động của đám đông. Đây là nguyên nhân chính dẫn đến việc con người tiếp nhận thông tin thụ động và bị chi phối bởi tâm lý đám đông.',
@@ -114,12 +118,9 @@ export const LEVELS: Level[] = [
   },
   {
     id: 7,
-    images: [
-      getImageUrl('../assets/images/level_7/image_1.png'),
-      getImageUrl('../assets/images/level_7/image_2.png'),
-    ],
+    images: [level7_1, level7_2],
     imageCaptions: ['Chủ động đặt câu hỏi', 'Phân tích và đánh giá thông tin'],
-    image: getImageUrl('../assets/images/level_7/image_1.png'),
+    image: level7_1,
     answer: 'TƯ DUY PHẢN BIỆN',
     aliases: ['TU DUY PHAN BIEN', 'CRITICAL THINKING'],
     definition: 'Thay vì thụ động chờ đợi thông tin tìm đến, hãy chủ động tìm kiếm nguồn tin cậy và đặt câu hỏi: thông tin này có chính xác không? Ai hưởng lợi nếu mình tin vào điều này? Có bằng chứng phản bác không?',
@@ -128,12 +129,9 @@ export const LEVELS: Level[] = [
   },
   {
     id: 8,
-    images: [
-      getImageUrl('../assets/images/level_8/image_1.png'),
-      getImageUrl('../assets/images/level_8/image_2.png'),
-    ],
+    images: [level8_1, level8_2],
     imageCaptions: ['Lọc thông tin nhiều lớp', 'Phân biệt thông tin chính xác'],
-    image: getImageUrl('../assets/images/level_8/image_1.png'),
+    image: level8_1,
     answer: 'MÀNG LỌC THÔNG TIN',
     aliases: ['MANG LOC THONG TIN', 'INFORMATION FILTER'],
     definition: 'Màng lọc thông tin là hệ thống tư duy chủ động mà mỗi sinh viên cần tự xây dựng: kiểm tra ít nhất 2–3 nguồn tin khác nhau, phân biệt rõ mối liên hệ bản chất (thông tin chính thống, có cơ sở) và mối liên hệ không bản chất (tin đồn, cảm xúc cá nhân).',
@@ -141,5 +139,3 @@ export const LEVELS: Level[] = [
     hint: 'Công cụ tư duy giúp phân biệt thông tin bản chất (có cơ sở) với tin đồn cảm xúc (không bản chất) trước khi tin và chia sẻ.',
   },
 ];
-
-
