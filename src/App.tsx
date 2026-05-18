@@ -6,6 +6,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import confetti from 'canvas-confetti';
+import { createClient } from '@supabase/supabase-js';
 import { GameStatus, LEVELS, Level } from './data/levels';
 import Home from './components/Home';
 import GameView from './components/GameView';
@@ -14,6 +15,13 @@ import Leaderboard from './components/Leaderboard';
 import { Heart } from 'lucide-react';
 import { cn } from './lib/utils';
 import { Menu, X } from 'lucide-react';
+
+// Initialize Supabase client
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+const supabase = supabaseUrl && supabaseAnonKey
+  ? createClient(supabaseUrl, supabaseAnonKey)
+  : null;
 
 export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -100,9 +108,23 @@ export default function App() {
 
   const handleGameOver = () => {
     const newEntry = { name: userName, score };
+
+    // Submit score to Supabase via serverless API
+    if (supabase) {
+      fetch('/api/submit-score', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: userName || 'Sinh viên', score }),
+      })
+        .then(r => r.json())
+        .catch(err => console.error('Failed to submit score:', err));
+    }
+
+    // Also update local state for immediate UI feedback + fallback localStorage
     setLeaderboard((prev) => {
-      const next = [...prev, newEntry].sort((a, b) => b.score - a.score).slice(0, 5);
+      const next = [...prev, newEntry].sort((a, b) => b.score - a.score).slice(0, 10);
       try { localStorage.setItem('philosophy_leaderboard', JSON.stringify(next)); } catch { }
+      try { localStorage.setItem('philosophy_leaderboard_updated_at', String(Date.now())); } catch { }
       return next;
     });
     setStatus(GameStatus.LEADERBOARD);
@@ -143,6 +165,57 @@ export default function App() {
       if (raw) setLeaderboard(JSON.parse(raw));
     } catch { }
   }, []);
+
+  // listen for leaderboard updates from other tabs/windows (storage event)
+  useEffect(() => {
+    const handler = (e: StorageEvent) => {
+      if (e.key === 'philosophy_leaderboard' && e.newValue) {
+        try {
+          setLeaderboard(JSON.parse(e.newValue));
+        } catch { }
+      }
+    };
+    window.addEventListener('storage', handler);
+    return () => window.removeEventListener('storage', handler);
+  }, []);
+
+  // Fetch leaderboard from Supabase and subscribe to realtime updates
+  useEffect(() => {
+    if (!supabase) return;
+
+    const fetchLeaderboard = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('leaderboard')
+          .select('*')
+          .order('score', { ascending: false })
+          .limit(10);
+
+        if (!error && data) {
+          const entries = data.map((row: any) => ({ name: row.name, score: row.score }));
+          setLeaderboard(entries);
+        }
+      } catch (err) {
+        console.error('Failed to fetch leaderboard:', err);
+      }
+    };
+
+    // Fetch initial leaderboard
+    fetchLeaderboard();
+
+    // Subscribe to realtime INSERT events on leaderboard table
+    const subscription = supabase
+      .from('leaderboard')
+      .on('INSERT', (payload: any) => {
+        // Refetch top 10 when a new score is inserted
+        fetchLeaderboard();
+      })
+      .subscribe();
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [supabase]);
 
   // Get background class based on current status
   const getBackgroundClass = () => {

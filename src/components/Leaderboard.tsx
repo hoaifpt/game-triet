@@ -10,7 +10,13 @@ interface LeaderboardProps {
 }
 
 export default function Leaderboard({ entries, currentScore, userName, onRestart }: LeaderboardProps) {
-  const userRank = entries.findIndex(e => e.name === userName && e.score === currentScore) + 1;
+  // Determine the user's rank for the current score. If exact match not found,
+  // fall back to the player's highest score on the board (first occurrence).
+  let userRank = entries.findIndex(e => e.name === userName && e.score === currentScore) + 1;
+  if (!userRank) {
+    const idx = entries.findIndex(e => e.name === userName);
+    userRank = idx >= 0 ? idx + 1 : 0;
+  }
 
   const getRankColor = (index: number) => {
     switch (index) {
@@ -30,7 +36,7 @@ export default function Leaderboard({ entries, currentScore, userName, onRestart
     >
       <div className="glass-card p-10 space-y-8 relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-orange-500 to-transparent" />
-        
+
         <div className="text-center space-y-2">
           <h2 className="text-3xl font-display font-bold">Bảng Xếp Hạng & Kết Quả</h2>
           <p className="text-orange-400 font-medium">Top Sinh Viên</p>
@@ -42,7 +48,7 @@ export default function Leaderboard({ entries, currentScore, userName, onRestart
             <div className="col-span-7">Tên Sinh Viên</div>
             <div className="col-span-3 text-right">Điểm</div>
           </div>
-          
+
           <div className="space-y-2">
             {entries.map((entry, index) => (
               <motion.div
