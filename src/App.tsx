@@ -42,8 +42,7 @@ export default function App() {
         setQuestionTimeLeft((prev) => prev - 1);
       }, 1000);
     } else if (questionTimeLeft === 0 && status === GameStatus.PLAYING) {
-      // time's up for this question -> treat as wrong
-      handleWrongAnswer();
+      handleTimeout();
     }
     return () => clearInterval(timer);
   }, [status, questionTimeLeft]);
@@ -98,6 +97,16 @@ export default function App() {
       setScore((prev) => Math.max(0, prev - 10));
       handleGameOver();
     }
+  };
+
+  const handleTimeout = () => {
+    setScore(0);
+    setLives(3);
+    setCurrentLevelIndex(0);
+    setShowHint(false);
+    setQuestionTimeLeft(PER_QUESTION_TIME);
+    setSidebarOpen(false);
+    setStatus(GameStatus.HOME);
   };
 
   const handleGameOver = () => {
@@ -449,6 +458,7 @@ export default function App() {
                   score={score}
                   lives={lives}
                   timeLeft={questionTimeLeft}
+                  timeLimit={PER_QUESTION_TIME}
                   onCorrect={handleCorrectAnswer}
                   onWrong={handleWrongAnswer}
                   onUseHint={handleUseHint}

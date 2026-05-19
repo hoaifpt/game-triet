@@ -16,6 +16,7 @@ interface GameViewProps {
   hintPenalty?: number;
   showHint?: boolean;
   onHintToggle?: (show: boolean) => void;
+  timeLimit?: number;
 }
 
 export default function GameView({
@@ -30,14 +31,11 @@ export default function GameView({
   hintPenalty = 0,
   showHint = false,
   onHintToggle,
+  timeLimit = 60,
 }: GameViewProps) {
   const [answer, setAnswer] = useState('');
   const [isWrong, setIsWrong] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
-  const initialTime = timeLeft ?? 60;
-  const [secondsLeft, setSecondsLeft] = useState<number>(initialTime);
-  const [timerRunning, setTimerRunning] = useState<boolean>(true);
-  const [hasTimedOut, setHasTimedOut] = useState<boolean>(false);
 
   const rawImages = level.images && level.images.length ? level.images : (level.image ? [level.image] : []);
   const uniqueImages = rawImages.filter((img, idx) => rawImages.indexOf(img) === idx);
@@ -47,9 +45,6 @@ export default function GameView({
     setAnswer('');
     setIsWrong(false);
     setSelectedImage(0);
-    setSecondsLeft(timeLeft ?? 60);
-    setTimerRunning(true);
-    setHasTimedOut(false);
   }, [level]);
 
   const handleSubmit = (e?: React.FormEvent) => {
@@ -60,7 +55,6 @@ export default function GameView({
     const normalizedAliases = aliases.map((a: string) => normalizeAnswer(a));
 
     if (normalizedInput === normalizedMain || normalizedAliases.includes(normalizedInput)) {
-      setTimerRunning(false);
       onCorrect();
     } else {
       setIsWrong(true);
@@ -68,27 +62,6 @@ export default function GameView({
       setTimeout(() => setIsWrong(false), 500);
     }
   };
-
-  // Timer effect
-  useEffect(() => {
-    if (!timerRunning || hasTimedOut) return;
-    if (secondsLeft <= 0) return;
-
-    const id = setInterval(() => {
-      setSecondsLeft((s) => {
-        if (s <= 1) {
-          clearInterval(id);
-          setTimerRunning(false);
-          setHasTimedOut(true);
-          onWrong();
-          return 0;
-        }
-        return s - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(id);
-  }, [timerRunning, secondsLeft, hasTimedOut]);
 
   // Determine grid layout based on image count
   const getImageGridClass = () => {
@@ -135,13 +108,13 @@ export default function GameView({
             Mở gợi ý: −{hintPenalty} điểm
           </div>
           <div className="flex items-center gap-3">
-            <div className="text-sm font-mono font-bold text-orange-300">{secondsLeft}s</div>
+            <div className="text-sm font-mono font-bold text-orange-300">{timeLeft}s</div>
             <div className="w-32 h-2 bg-white/10 rounded-full overflow-hidden">
               <div
-                style={{ width: `${Math.max(0, (secondsLeft / (timeLeft ?? initialTime)) * 100)}%` }}
+                style={{ width: `${Math.max(0, (timeLeft / timeLimit) * 100)}%` }}
                 className={cn(
                   'h-full transition-all',
-                  secondsLeft <= 10 ? 'bg-red-400' : 'bg-orange-400'
+                  timeLeft <= 10 ? 'bg-red-400' : 'bg-orange-400'
                 )}
               />
             </div>
