@@ -35,7 +35,7 @@ export default function Leaderboard({ entries, currentScore, userName, onRestart
       className="max-w-xl w-full"
     >
       <div className="glass-card p-10 space-y-8 relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-orange-500 to-transparent" />
+        <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-transparent via-orange-500 to-transparent" />
 
         <div className="text-center space-y-2">
           <h2 className="text-3xl font-display font-bold">Bảng Xếp Hạng & Kết Quả</h2>

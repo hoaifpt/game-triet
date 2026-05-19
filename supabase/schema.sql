@@ -21,5 +21,7 @@ ALTER TABLE public.leaderboard ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Allow read access to all" ON public.leaderboard
   FOR SELECT USING (true);
 
--- Write access is restricted to service role (via our API endpoint)
--- No anonymous insert/update allowed at table level
+CREATE POLICY "Allow insert for leaderboard submissions" ON public.leaderboard
+  FOR INSERT WITH CHECK (true);
+
+-- The app now writes directly with the anon key, so insert access must be allowed.

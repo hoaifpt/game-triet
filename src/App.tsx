@@ -103,15 +103,23 @@ export default function App() {
   const handleGameOver = () => {
     const newEntry = { name: userName, score };
 
-    // Submit score to Supabase via serverless API
+    // Submit score directly to Supabase so multiple devices can share the same leaderboard.
     if (supabase) {
-      fetch('/api/submit-score', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: userName || 'Sinh viên', score }),
-      })
-        .then(r => r.json())
-        .catch(err => console.error('Failed to submit score:', err));
+      supabase
+        .from('leaderboard')
+        .insert([
+          {
+            name: userName || 'Sinh viên',
+            score,
+            played_at: new Date().toISOString(),
+          },
+        ])
+        .select()
+        .then(({ error }) => {
+          if (error) {
+            console.error('Failed to submit score:', error);
+          }
+        });
     }
 
     // Also update local state for immediate UI feedback + fallback localStorage
