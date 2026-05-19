@@ -33,13 +33,7 @@ export default function App() {
   const [showHint, setShowHint] = useState(false);
   const PER_QUESTION_TIME = 60; // seconds per question
   const [questionTimeLeft, setQuestionTimeLeft] = useState(PER_QUESTION_TIME);
-  const [leaderboard, setLeaderboard] = useState<{ name: string; score: number }[]>([
-    { name: 'Nguyễn Văn A', score: 9500 },
-    { name: 'Trần Thị B', score: 8800 },
-    { name: 'Lê Văn C', score: 8200 },
-    { name: 'Phạm Quốc D', score: 7500 },
-    { name: 'Hoàng Mai E', score: 7000 },
-  ]);
+  const [leaderboard, setLeaderboard] = useState<{ name: string; score: number }[]>([]);
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -123,7 +117,7 @@ export default function App() {
     // Also update local state for immediate UI feedback + fallback localStorage
     setLeaderboard((prev) => {
       const next = [...prev, newEntry].sort((a, b) => b.score - a.score).slice(0, 10);
-      try { localStorage.setItem('philosophy_leaderboard', JSON.stringify(next)); } catch { }
+      try { localStorage.setItem('philosophy_leaderboard_v2', JSON.stringify(next)); } catch { }
       try { localStorage.setItem('philosophy_leaderboard_updated_at', String(Date.now())); } catch { }
       return next;
     });
@@ -161,7 +155,7 @@ export default function App() {
   // load leaderboard from localStorage on mount
   useEffect(() => {
     try {
-      const raw = localStorage.getItem('philosophy_leaderboard');
+      const raw = localStorage.getItem('philosophy_leaderboard_v2');
       if (raw) setLeaderboard(JSON.parse(raw));
     } catch { }
   }, []);
@@ -169,7 +163,7 @@ export default function App() {
   // listen for leaderboard updates from other tabs/windows (storage event)
   useEffect(() => {
     const handler = (e: StorageEvent) => {
-      if (e.key === 'philosophy_leaderboard' && e.newValue) {
+      if (e.key === 'philosophy_leaderboard_v2' && e.newValue) {
         try {
           setLeaderboard(JSON.parse(e.newValue));
         } catch { }

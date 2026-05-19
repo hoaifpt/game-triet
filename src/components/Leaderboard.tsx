@@ -43,36 +43,50 @@ export default function Leaderboard({ entries, currentScore, userName, onRestart
         </div>
 
         <div className="space-y-3">
-          <div className="grid grid-cols-12 px-6 py-2 text-xs font-bold uppercase tracking-wider text-white/30">
-            <div className="col-span-2">Rank</div>
-            <div className="col-span-7">Tên Sinh Viên</div>
-            <div className="col-span-3 text-right">Điểm</div>
-          </div>
+          {entries.length === 0 ? (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="py-16 text-center"
+            >
+              <Trophy className="w-12 h-12 mx-auto mb-4 text-white/20" />
+              <p className="text-white/60 text-lg font-medium">Chưa có ai chơi</p>
+              <p className="text-white/40 text-sm mt-2">Hãy bắt đầu từ đầu</p>
+            </motion.div>
+          ) : (
+            <>
+              <div className="grid grid-cols-12 px-6 py-2 text-xs font-bold uppercase tracking-wider text-white/30">
+                <div className="col-span-2">Rank</div>
+                <div className="col-span-7">Tên Sinh Viên</div>
+                <div className="col-span-3 text-right">Điểm</div>
+              </div>
 
-          <div className="space-y-2">
-            {entries.map((entry, index) => (
-              <motion.div
-                key={`${entry.name}-${index}`}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className={cn(
-                  "grid grid-cols-12 items-center px-6 py-3 rounded-lg border bg-white/5 transition-all",
-                  getRankColor(index),
-                  entry.name === userName && "ring-2 ring-orange-500/50 bg-orange-500/5"
-                )}
-              >
-                <div className="col-span-2 flex items-center gap-2">
-                  <span className="font-bold">{index + 1}</span>
-                  {index < 3 && <Medal className="w-4 h-4" />}
-                </div>
-                <div className="col-span-7 font-medium text-white">{entry.name}</div>
-                <div className="col-span-3 text-right font-mono font-bold text-white">
-                  {entry.score.toLocaleString()}
-                </div>
-              </motion.div>
-            ))}
-          </div>
+              <div className="space-y-2">
+                {entries.map((entry, index) => (
+                  <motion.div
+                    key={`${entry.name}-${index}`}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    className={cn(
+                      "grid grid-cols-12 items-center px-6 py-3 rounded-lg border bg-white/5 transition-all",
+                      getRankColor(index),
+                      entry.name === userName && "ring-2 ring-orange-500/50 bg-orange-500/5"
+                    )}
+                  >
+                    <div className="col-span-2 flex items-center gap-2">
+                      <span className="font-bold">{index + 1}</span>
+                      {index < 3 && <Medal className="w-4 h-4" />}
+                    </div>
+                    <div className="col-span-7 font-medium text-white">{entry.name}</div>
+                    <div className="col-span-3 text-right font-mono font-bold text-white">
+                      {entry.score.toLocaleString()}
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </>
+          )}
         </div>
 
         <div className="pt-6 space-y-6 text-center border-t border-white/10">
